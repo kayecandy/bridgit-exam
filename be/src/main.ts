@@ -36,7 +36,7 @@ import helmet from 'helmet';
   app.use(helmet());
   const rawBodyBuffer = (
     req: IncomingMessage,
-    _: ServerResponse<IncomingMessage>,
+    _: ServerResponse,
     buffer: Buffer,
   ) => {
     if (buffer?.length) {
