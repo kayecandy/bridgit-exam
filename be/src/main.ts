@@ -1,58 +1,14 @@
-import * as bodyParser from 'body-parser';
-import { AppModule } from './app.module';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
-import { DTOValidationPipe } from './common/dto-validation.pipe';
 import {
   DocumentBuilder,
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
-import { HttpExceptionFilter } from './common/http-exception.filter';
-import { IncomingMessage, ServerResponse } from 'http';
-import { NestFactory } from '@nestjs/core';
-import { RawBodyRequest, ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet';
+
+import { app as _app } from './app';
 
 (async () => {
-  // app initialization
-  const cors = <CorsOptions>{};
-  const { CORS_ORIGINS = '' } = process.env;
-  if (CORS_ORIGINS) {
-    cors.origin = CORS_ORIGINS?.split(',');
-    cors.credentials = true;
-  }
-  const app = await NestFactory.create(AppModule, {
-    cors,
-    rawBody: true,
-  });
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new DTOValidationPipe());
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-    }),
-  );
-  app.use(helmet());
-  const rawBodyBuffer = (
-    req: IncomingMessage,
-    _: ServerResponse,
-    buffer: Buffer,
-  ) => {
-    if (buffer?.length) {
-      (<RawBodyRequest<Request>>(<unknown>req)).rawBody = buffer;
-    }
-  };
-  app.use(bodyParser.json({ verify: rawBodyBuffer, limit: '5mb' }));
-  app.use(
-    bodyParser.urlencoded({
-      verify: rawBodyBuffer,
-      limit: '5mb',
-      extended: true,
-    }),
-  );
-  const port = process.env.PORT || 8081;
-  const host = process.env.HOST || 'localhost';
+  const app = await _app();
+
   // swagger documentation
   const config = new DocumentBuilder()
     .setTitle('Bridgit Technical Comptetence API')
@@ -71,6 +27,10 @@ import helmet from 'helmet';
       },
     },
   });
+
+  const port = process.env.PORT || 8081;
+  const host = process.env.HOST || 'localhost';
+
   // start server
   const server = await app.listen(port, host);
   server.keepAliveTimeout = 61 * 1000;
