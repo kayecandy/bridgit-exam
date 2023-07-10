@@ -1,4 +1,4 @@
-import { app as _app } from 'dist/src/app';
+import { app as _app } from '../dist/app';
 
 import serverlessExpress from '@vendia/serverless-express';
 import express from 'express';
