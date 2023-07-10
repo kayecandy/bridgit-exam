@@ -1,3 +1,4 @@
 [functions]
-  external_node_modules = ["@nestjs"]
+  external_node_modules = ["@nestjs", "@nestjs/common"]
   node_bundler = "esbuild"
+  
