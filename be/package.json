@@ -17,6 +17,7 @@
     "start:prod": "node main.js"
   },
   "dependencies": {
+    "@nestjs/common": "^9.3.9",
     "@netlify/functions": "^1.6.0",
     "@vendia/serverless-express": "^4.10.4",
     "bcryptjs": "^2.4.3",
@@ -41,7 +42,6 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^9.2.0",
-    "@nestjs/common": "^9.3.9",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.3.9",
     "@nestjs/jwt": "^9.0.0",
