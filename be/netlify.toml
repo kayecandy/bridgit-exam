@@ -1,4 +1,4 @@
 [functions]
-  external_node_modules = ["@nestjs", "@nestjs/common"]
+  external_node_modules = ["@nestjs", "@nestjs/common", "@nestjs/swagger"]
   node_bundler = "esbuild"
   
