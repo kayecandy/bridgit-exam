@@ -41,7 +41,7 @@ const dialogApproved = ref(true);
 
 const onFormSubmit = ref(() => {
   axios
-    ?.post("http://localhost:9300/submit", {
+    ?.post(process.env.VUE_APP_BE_URL + "/submit", {
       ...personalInfoFormData.value,
       license: "test",
       finances: {
