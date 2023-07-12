@@ -59,6 +59,8 @@ export class SubmitService {
    * @returns {number}
    */
   async determineEligiblity(applicantDto: ApplicantDto): Promise<boolean> {
+    console.log(applicantDto);
+
     // verify the image
     const validImage = await this.validateImageUpload(applicantDto.license);
     if (!validImage) {

@@ -27,3 +27,5 @@ export const MISSING_SAVINGS_AMOUNT_ERROR = 'missing-savings-amount-error';
 export const MISSING_LICENSE_UPLOAD_ERROR = 'missing-license-upload-error';
 export const MISSING_STOCK_NAME_ERROR = 'missing-stock-name-error';
 export const MISSING_STOCK_QUANTITY_ERROR = 'missing-stock-quantity-error';
+export const MISSING_SALARY_PER_QUARTER_ERROR =
+  'missing-salary-per-quarter-error';

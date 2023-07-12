@@ -19,10 +19,14 @@ export const app = async (expressApp?: any) => {
     cors.origin = CORS_ORIGINS?.split(',');
     cors.credentials = true;
   }
-  const app = await NestFactory.create(AppModule,new ExpressAdapter(expressApp), {
-    cors,
-    rawBody: true,
-  });
+  const app = await NestFactory.create(
+    AppModule,
+    new ExpressAdapter(expressApp),
+    {
+      cors,
+      rawBody: true,
+    },
+  );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new DTOValidationPipe());
   app.useGlobalPipes(
@@ -49,9 +53,6 @@ export const app = async (expressApp?: any) => {
       extended: true,
     }),
   );
-  
 
   return app;
-  
-  
 };

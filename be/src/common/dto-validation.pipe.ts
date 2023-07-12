@@ -60,24 +60,31 @@ export class DTOValidationPipe implements PipeTransform<any> {
     if (!validationErrors?.length) {
       return;
     }
+
     const errors = [];
-    validationErrors.forEach((error) => {
+    for (const error of validationErrors) {
       const property = paramCase(error.property);
-      let errorMessage;
+      let errorMessages;
       const keys = Object.keys(error.target);
-      if (
-        (keys.indexOf(error.property) === -1 && error.value === undefined) ||
-        (keys.indexOf(error.property) > -1 &&
-          (error.value === '' || error.value === 0))
-      ) {
-        errorMessage = `missing-${property}-error`;
+
+      console.log(error);
+
+      if (error.children && error.children.length >= 1) {
+        const childErrors = this.formatErrors(error.children);
+        if (typeof childErrors === 'string') {
+          errors.push(childErrors);
+        } else {
+          errors.push(...childErrors);
+        }
       } else {
-        errorMessage = `invalid-${property}-error`;
+        errorMessages = Object.values(error.constraints);
+        for (const errorMessage of errorMessages) {
+          if (errors.indexOf(errorMessage) === -1) {
+            errors.push(errorMessage);
+          }
+        }
       }
-      if (errors.indexOf(errorMessage) === -1) {
-        errors.push(errorMessage);
-      }
-    });
+    }
     return errors.length === 1 ? errors[0] : errors;
   }
 }

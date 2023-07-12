@@ -20,6 +20,7 @@ import {
   MISSING_LAST_NAME_ERROR,
   MISSING_LICENSE_UPLOAD_ERROR,
   MISSING_LOCATION_ERROR,
+  MISSING_SALARY_PER_QUARTER_ERROR,
   MISSING_SAVINGS_AMOUNT_ERROR,
   MISSING_STOCK_NAME_ERROR,
   MISSING_STOCK_QUANTITY_ERROR,
@@ -27,6 +28,7 @@ import {
 } from '../../common/response-messages';
 import {
   IsDate,
+  IsDefined,
   IsEnum,
   IsInt,
   IsNumber,
@@ -37,6 +39,7 @@ import {
   Min,
   MinLength,
   ValidateNested,
+  isNotEmpty,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
@@ -51,13 +54,15 @@ export class StockDto {
     description: "The trading name of the stock's company",
   })
   @IsString()
-  @Min(1, { message: INVALID_STOCK_NAME_LENGTH })
-  @Max(50, { message: INVALID_STOCK_NAME_LENGTH })
+  @MinLength(1, { message: MISSING_STOCK_NAME_ERROR })
+  @MaxLength(50, { message: INVALID_STOCK_NAME_LENGTH })
   readonly name: string;
   /**
    * The quantity of stock the applicant owns
    */
-  @IsInt()
+  @IsInt({
+    message: MISSING_STOCK_QUANTITY_ERROR,
+  })
   @Min(1, { message: INVALID_STOCK_QUANTITY })
   @Max(1000, { message: INVALID_STOCK_QUANTITY })
   @ApiProperty({
@@ -77,7 +82,9 @@ export class FinancesDto {
   @ApiProperty({
     description: "The applicant's salary per quarter",
   })
-  @IsInt()
+  @IsInt({
+    message: MISSING_SALARY_PER_QUARTER_ERROR,
+  })
   @Type(() => Number)
   readonly salaryPerQuarter: number;
   /**
@@ -168,7 +175,12 @@ export class ApplicantDto {
     example: '1999-12-03',
   })
   @Transform(({ value }) => (value && !isNaN(value) ? value : null))
-  @IsDate()
+  @IsDefined({
+    message: MISSING_DATE_OF_BIRTH_ERROR,
+  })
+  @IsDate({
+    message: INVALID_DATE_OF_BIRTH_ERROR,
+  })
   @Type(() => Date)
   readonly dateOfBirth: Date;
   /**
@@ -188,7 +200,9 @@ export class ApplicantDto {
   @ApiProperty({
     description: "The applicant's finances",
   })
-  @IsObject()
+  @IsObject({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => FinancesDto)
   readonly finances: FinancesDto;
 }
 
