@@ -1,4 +1,4 @@
-cd ../../be
+cd ./be
 npm run build
 
 cd ../fe
