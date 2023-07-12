@@ -25,6 +25,7 @@ import { provide } from "vue";
 import { AxiosStatic } from "axios";
 import { FinancialInfo, PersonalInfo } from "@/components/constants/types";
 import { CreateRule, ERRORS } from "@/components/constants/rules";
+import { URL_SUBMIT } from "@/components/constants/constants";
 
 const axios = inject<AxiosStatic>("axios");
 
@@ -41,7 +42,7 @@ const dialogApproved = ref(true);
 
 const onFormSubmit = ref(() => {
   axios
-    ?.post(process.env.VUE_APP_BE_URL + "/submit", {
+    ?.post(URL_SUBMIT, {
       ...personalInfoFormData.value,
       license: "test",
       finances: {
