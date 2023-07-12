@@ -1,1 +1,1 @@
-export const URL_SUBMIT = process.env.VUE_APP_BE_URL + "/submit";
+export const URL_SUBMIT = import.meta.env.VITE_BE_URL + "/submit";
