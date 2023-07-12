@@ -1,0 +1,15 @@
+{
+  "name": "bridgit-netlify",
+  "version": "1.0.0",
+  "description": "Netlify functions for serverless deployment of bridgit-be",
+  "author": "Candice Canoso",
+  "license": "ISC",
+  "scripts": {
+    "netlify:link": "netlify link",
+    "netlify:dev": "netlify dev",
+    "netlify:functions": "netlify functions:serve"
+  },
+  "devDependencies": {
+    "netlify-cli": "^15.8.1"
+  }
+}

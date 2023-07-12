@@ -1,5 +1,6 @@
 [functions]
-  external_node_modules = ["@nestjs", "@nestjs/common", "@nestjs/swagger", "@nestjs/config", "be/dist/app"]
+  directory = "be/functions"
+  external_node_modules = ["@nestjs/common", "@nestjs/swagger", "@nestjs/microservices", "@nestjs/websockets/socket-module",  "be/dist/app"]
   included_files = ["be/dist/*"]
   node_bundler = "esbuild"
   
