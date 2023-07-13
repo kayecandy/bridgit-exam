@@ -35,12 +35,16 @@ const personalInfoFormData = ref<PersonalInfo>({});
 const financialInfoFormRef = ref();
 const personalInfoFormRef = ref();
 
+const isLoading = ref(false);
+
 const errors = ref<string[]>([]);
 
 const showDialog = ref(false);
 const dialogApproved = ref(true);
 
 const onFormSubmit = ref(() => {
+  isLoading.value = true;
+
   axios
     ?.post(URL_SUBMIT, {
       ...personalInfoFormData.value,
@@ -67,6 +71,7 @@ const onFormSubmit = ref(() => {
     .finally(() => {
       personalInfoFormRef.value?.validate();
       financialInfoFormRef.value?.validate();
+      isLoading.value = false;
     });
 });
 
@@ -94,4 +99,5 @@ provide("financialInfoFormRef", financialInfoFormRef);
 provide("personalInfoFormRef", personalInfoFormRef);
 provide("onFormSubmit", onFormSubmit);
 provide("rules", rules);
+provide("isLoading", isLoading);
 </script>

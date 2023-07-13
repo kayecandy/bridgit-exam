@@ -72,6 +72,7 @@
               size="large"
               class="text-white"
               @click="onSubmit"
+              :loading="isLoading"
             >
               Submit
             </v-btn>
@@ -99,6 +100,7 @@ const financialInfoForm =
 const onSubmit = inject<Ref<Function>>("onFormSubmit") ?? ref(() => {});
 
 const rules = inject<CreateRule>("rules") ?? (() => undefined);
+const isLoading = inject<Ref<boolean>>("isLoading");
 
 onMounted(() => {
   formRef?.value?.validate();
