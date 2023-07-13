@@ -1,4 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  ArrayNotEmpty,
+  IsDefined,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+  Validate,
+  ValidateNested,
+} from 'class-validator';
 import { BridgitLogoBase64 } from '../../common/example.image';
 import {
   INTERNAL_SERVER_ERROR,
@@ -26,21 +42,6 @@ import {
   MISSING_STOCK_QUANTITY_ERROR,
   SUCCESS,
 } from '../../common/response-messages';
-import {
-  IsDate,
-  IsDefined,
-  IsEnum,
-  IsInt,
-  IsNumber,
-  IsObject,
-  IsString,
-  Max,
-  MaxLength,
-  Min,
-  MinLength,
-  ValidateNested,
-  isNotEmpty,
-} from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
 /**
@@ -54,6 +55,7 @@ export class StockDto {
     description: "The trading name of the stock's company",
   })
   @IsString()
+  @IsNotEmpty()
   @MinLength(1, { message: MISSING_STOCK_NAME_ERROR })
   @MaxLength(50, { message: INVALID_STOCK_NAME_LENGTH })
   readonly name: string;
@@ -85,6 +87,7 @@ export class FinancesDto {
   @IsInt({
     message: MISSING_SALARY_PER_QUARTER_ERROR,
   })
+  @IsNotEmpty()
   @Type(() => Number)
   readonly salaryPerQuarter: number;
   /**
@@ -124,7 +127,8 @@ export class FinancesDto {
     description: 'The stock the applicant owns',
     type: [StockDto],
   })
-  @IsObject({ each: true })
+  @IsNotEmpty({ message: MISSING_STOCK_NAME_ERROR })
+  @ArrayNotEmpty({ message: MISSING_STOCK_NAME_ERROR })
   @ValidateNested({ each: true })
   @Type(() => StockDto)
   readonly stock: StockDto[];
@@ -174,15 +178,17 @@ export class ApplicantDto {
     description: "The applicant's date of birth in YYYY-MM-DD format",
     example: '1999-12-03',
   })
-  @Transform(({ value }) => (value && !isNaN(value) ? value : null))
+  @Transform(({ value }) => {
+    const d = new Date(value);
+
+    if (isNaN(d as unknown as number)) return undefined;
+
+    return value;
+  }, {})
   @IsDefined({
     message: MISSING_DATE_OF_BIRTH_ERROR,
   })
-  @IsDate({
-    message: INVALID_DATE_OF_BIRTH_ERROR,
-  })
-  @Type(() => Date)
-  readonly dateOfBirth: Date;
+  readonly dateOfBirth: string;
   /**
    * The applicant's license or ID in base64 string
    */
@@ -200,9 +206,11 @@ export class ApplicantDto {
   @ApiProperty({
     description: "The applicant's finances",
   })
-  @IsObject({ each: true })
-  @ValidateNested({ each: true })
+  @IsNotEmpty()
+  @IsObject()
+  @ValidateNested()
   @Type(() => FinancesDto)
+  @Validate(FinancesDto)
   readonly finances: FinancesDto;
 }
 

@@ -59,23 +59,22 @@ export class SubmitService {
    * @returns {number}
    */
   async determineEligiblity(applicantDto: ApplicantDto): Promise<boolean> {
-    console.log(applicantDto);
-
     // verify the image
     const validImage = await this.validateImageUpload(applicantDto.license);
     if (!validImage) {
       // TODO: add an invalid image error to the DTO and Swagger definitions
       throw new Error('not-yet-implemented');
     }
+    const dateOfBirth = new Date(applicantDto.dateOfBirth);
+
     // verify the applicant's age
-    if (!applicantDto?.dateOfBirth?.getFullYear) {
+    if (!dateOfBirth.getFullYear()) {
       throw new HttpException(
         INVALID_DATE_OF_BIRTH_ERROR,
         HttpStatus.BAD_REQUEST,
       );
     }
-    const age =
-      new Date().getFullYear() - applicantDto.dateOfBirth.getFullYear();
+    const age = new Date().getFullYear() - dateOfBirth.getFullYear();
     if (age < 18) {
       throw new HttpException(
         INVALID_APPLICANT_AGE_ERROR,

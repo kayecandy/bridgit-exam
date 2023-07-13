@@ -31,7 +31,7 @@ export const app = async (expressApp?: any) => {
   app.useGlobalPipes(new DTOValidationPipe());
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
+      // whitelist: true,
       transform: true,
     }),
   );
