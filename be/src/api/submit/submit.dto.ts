@@ -27,6 +27,7 @@ import {
   INVALID_FIRST_NAME_LENGTH,
   INVALID_HOME_LOAN_DEBT_AMOUNT_ERROR,
   INVALID_LAST_NAME_LENGTH,
+  INVALID_LICENSE_FORMAT,
   INVALID_LICENSE_UPLOAD_SIZE,
   INVALID_LOCATION_LENGTH,
   INVALID_SAVINGS_AMOUNT_ERROR,
@@ -46,6 +47,7 @@ import {
   MISSING_STOCK_QUANTITY_ERROR,
   SUCCESS,
 } from '../../common/response-messages';
+import { IsValidImage } from 'src/common/decorators/is-valid-image';
 import { Transform, Type } from 'class-transformer';
 import { TransformEmptyStringToUndefined } from 'src/common/decorators/transform-empty-string-to-undefined';
 
@@ -246,6 +248,7 @@ export class ApplicantDto {
   @IsString()
   @MinLength(1, { message: INVALID_LICENSE_UPLOAD_SIZE })
   @MaxLength(5000000, { message: INVALID_LICENSE_UPLOAD_SIZE })
+  @IsValidImage({ message: INVALID_LICENSE_FORMAT })
   readonly license: string;
 
   /**

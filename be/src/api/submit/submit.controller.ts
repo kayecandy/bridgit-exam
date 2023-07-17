@@ -24,6 +24,7 @@ import {
   INVALID_FIRST_NAME_LENGTH,
   INVALID_HOME_LOAN_DEBT_AMOUNT_ERROR,
   INVALID_LAST_NAME_LENGTH,
+  INVALID_LICENSE_FORMAT,
   INVALID_LICENSE_UPLOAD_SIZE,
   INVALID_LOCATION_LENGTH,
   INVALID_SAVINGS_AMOUNT_ERROR,
@@ -100,6 +101,8 @@ export class SubmitController {
       [INVALID_EMAIL_FORMAT]: 'Applicant email must be a valid email',
       [INVALID_LICENSE_UPLOAD_SIZE]:
         'Uploaded file must be 1000 to 5000000 bytes base64 string',
+      [INVALID_LICENSE_FORMAT]:
+        'Uploaded file must be in PNG, JPEG or GIF formats',
       [INVALID_LOCATION_LENGTH]:
         'Applicant location must be between 1 - 50 characters',
       [INVALID_SAVINGS_AMOUNT_ERROR]:

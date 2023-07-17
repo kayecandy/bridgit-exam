@@ -35,7 +35,7 @@
               <v-file-input
                 label="Photo ID"
                 :rules="rules('license')"
-                accept="image/*"
+                accept="image/png, image/gif, image/jpeg"
                 v-model="personalInfoForm.license"
               ></v-file-input>
             </v-form>

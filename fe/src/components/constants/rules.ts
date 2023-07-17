@@ -75,6 +75,10 @@ export const ERRORS: Record<
       message: "Uploaded file must be 1000 to 5000000 bytes base64 string",
     },
     {
+      code: "invalid-license-format-error",
+      message: "Uploaded file must be in PNG, JPEG or GIF formats",
+    },
+    {
       code: "missing-license-upload-error",
       message: "Posted payload is missing license upload",
     },

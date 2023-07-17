@@ -17,6 +17,9 @@ export class SubmitService {
    * Verify a base64 image is a valid JPG, PNG or GIF image
    * @param base64 {String} The image data
    * @returns {boolean}
+   *
+   * IMPLEMENTED AS CUSTOM DECORATOR.
+   * REFER TO src/common/decorators/is-valid-image.ts
    */
   private async validateImageUpload(base64: string): Promise<boolean> {
     // TODO: verify the base 64 image is a JPEG, GIF or PNG image
@@ -47,10 +50,6 @@ export class SubmitService {
   private async computeTotalLiabilities(
     finances: FinancesDto,
   ): Promise<number> {
-    if (typeof finances.totalCreditCardDebt === 'string') {
-      throw new Error();
-    }
-
     return (
       (finances.currentHomeLoanDebt ?? 0) + (finances.totalCreditCardDebt ?? 0)
     );
