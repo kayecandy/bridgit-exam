@@ -11,8 +11,20 @@
         >You application has been rejected. Please try again with different
         parameters.</v-card-text
       >
+
+      <v-card-text v-if="stockLostValue">
+        <v-alert
+          type="warning"
+          :text="`Stock price for ${financialInfoFormData.stockName} has decreased it's price`"
+        >
+        </v-alert>
+      </v-card-text>
       <v-card-actions>
         <v-btn @click="showDialog = false">Ok!</v-btn>
+
+        <v-btn variant="flat" color="green-accent-4" class="text-white"
+          >Email me a copy of this form!</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -41,6 +53,7 @@ const errors = ref<string[]>([]);
 
 const showDialog = ref(false);
 const dialogApproved = ref(true);
+const stockLostValue = ref(false);
 
 const onFormSubmit = ref(async () => {
   isLoading.value = true;
@@ -68,6 +81,14 @@ const onFormSubmit = ref(async () => {
       errors.value = [];
       dialogApproved.value = res.data.approved;
       showDialog.value = true;
+
+      const stockData = Object.values(res.data.stocks)[0] as Record<
+        string,
+        number | undefined
+      >;
+
+      stockLostValue.value =
+        (stockData?.stockPrice ?? 0) < (stockData?.prevStockPrice ?? 0);
     })
     .catch((err) => {
       errors.value = err.response.data.message;

@@ -28,6 +28,7 @@ import {
   INVALID_LICENSE_UPLOAD_SIZE,
   INVALID_LOCATION_LENGTH,
   INVALID_SAVINGS_AMOUNT_ERROR,
+  INVALID_STOCK_NAME,
   INVALID_STOCK_NAME_LENGTH,
   INVALID_STOCK_QUANTITY,
   MISSING_CAR_LOAN_DEBT_AMOUNT_ERROR,
@@ -107,6 +108,7 @@ export class SubmitController {
         'Applicant location must be between 1 - 50 characters',
       [INVALID_SAVINGS_AMOUNT_ERROR]:
         'Savings amount must be greater than or equal to 0',
+      [INVALID_STOCK_NAME]: 'Stock name must be valid',
       [INVALID_STOCK_NAME_LENGTH]:
         'Stock name must be between 1 - 50 characters',
       [INVALID_STOCK_QUANTITY]: 'Stock quantity must be between 1 and 1000',
@@ -134,12 +136,11 @@ export class SubmitController {
     type: ApplicantDto,
   })
   async submit(@Body() applicantDto: ApplicantDto): Promise<SubmitResponseDto> {
-    console.log('BODY', applicantDto);
-
     const approved = await this.submitService.determineEligiblity(applicantDto);
     return {
       message: SUCCESS,
       approved,
+      stocks: this.submitService.stockPrices,
     };
   }
 }

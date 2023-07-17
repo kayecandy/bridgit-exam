@@ -135,6 +135,10 @@ export const ERRORS: Record<
       message: "Stock name must be between 1 - 50 characters",
     },
     {
+      code: "invalid-stock-name-error",
+      message: "Stock name must be valid",
+    },
+    {
       code: "missing-stock-name-error",
       message: "Posted payload is missing stock name",
     },

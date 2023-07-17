@@ -265,6 +265,21 @@ export class ApplicantDto {
 }
 
 /**
+ * Stock prices response data
+ */
+export class StockDataDto {
+  @ApiProperty({
+    description: 'Currect price of the stock',
+  })
+  readonly stockPrice: number;
+
+  @ApiProperty({
+    description: 'Previous closing price of the stock',
+  })
+  readonly prevStockPrice: number;
+}
+
+/**
  * The response data
  */
 export class SubmitResponseDto {
@@ -275,6 +290,7 @@ export class SubmitResponseDto {
     description: 'Success message indicating the request completed',
   })
   readonly message = SUCCESS;
+
   /**
    * The approve or deny status for the applicant's loan
    */
@@ -282,6 +298,14 @@ export class SubmitResponseDto {
     description: "The approve or deny status for the applicant's loan",
   })
   readonly approved: boolean;
+
+  /**
+   * The approve or deny status for the applicant's loan
+   */
+  @ApiProperty({
+    description: "The approve or deny status for the applicant's loan",
+  })
+  readonly stocks: Record<string, StockDataDto>;
 }
 
 /**

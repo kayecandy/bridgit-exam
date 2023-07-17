@@ -1,8 +1,14 @@
-import { ApplicantDto, FinancesDto, StockDto } from './submit.dto';
+import {
+  ApplicantDto,
+  FinancesDto,
+  StockDataDto,
+  StockDto,
+} from './submit.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import {
   INVALID_APPLICANT_AGE_ERROR,
   INVALID_DATE_OF_BIRTH_ERROR,
+  INVALID_STOCK_NAME,
 } from 'src/common/response-messages';
 import { randomBytes } from 'crypto';
 
@@ -13,6 +19,8 @@ const submittedData: Record<string, ApplicantDto> = {};
  */
 @Injectable()
 export class SubmitService {
+  stockPrices: Record<string, StockDataDto> = {};
+
   /**
    * Verify a base64 image is a valid JPG, PNG or GIF image
    * @param base64 {String} The image data
@@ -36,7 +44,28 @@ export class SubmitService {
     // TODO: implement an API lookup to fetch the value using
     // the API key provided in the `.env.localdev` file and
     // the documentation here: https://www.alphavantage.co/documentation/
-    return stock.quantity * 18;
+
+    const stockDetails = (
+      await (
+        await fetch(
+          `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stock.name}&apikey=SSU7DUS18ZI9SZ77`,
+        )
+      ).json()
+    )['Global Quote'];
+
+    const stockPrice = stockDetails['05. price'];
+    const prevStockPrice = stockDetails['08. previous close'];
+
+    if (!stockPrice || !prevStockPrice) {
+      throw new HttpException(INVALID_STOCK_NAME, HttpStatus.BAD_REQUEST);
+    }
+
+    this.stockPrices[stock.name] = {
+      stockPrice: parseFloat(stockPrice),
+      prevStockPrice: parseFloat(prevStockPrice),
+    };
+
+    return stock.quantity * parseFloat(stockPrice);
   }
 
   private async computeTotalAssets(finances: FinancesDto): Promise<number> {

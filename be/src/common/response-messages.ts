@@ -17,6 +17,7 @@ export const INVALID_LICENSE_UPLOAD_SIZE = 'invalid-license-upload-size-error';
 export const INVALID_LICENSE_FORMAT = 'invalid-license-format-error';
 export const INVALID_LOCATION_LENGTH = 'invalid-location-length-error';
 export const INVALID_SAVINGS_AMOUNT_ERROR = 'invalid-savings-amount-error';
+export const INVALID_STOCK_NAME = 'invalid-stock-name-error';
 export const INVALID_STOCK_NAME_LENGTH = 'invalid-stock-name-length-error';
 export const INVALID_STOCK_QUANTITY = 'invalid-stock-quantity-error';
 export const MISSING_CREDIT_CARD_DEBT_AMOUNT_ERROR =
