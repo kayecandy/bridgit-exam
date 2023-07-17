@@ -25,7 +25,7 @@ import { provide } from "vue";
 import { AxiosStatic } from "axios";
 import { FinancialInfo, PersonalInfo } from "@/components/constants/types";
 import { CreateRule, ERRORS } from "@/components/constants/rules";
-import { URL_SUBMIT } from "@/components/constants/constants";
+import { URL_SUBMIT, fileToBase64 } from "@/components/constants/constants";
 
 const axios = inject<AxiosStatic>("axios");
 
@@ -42,13 +42,17 @@ const errors = ref<string[]>([]);
 const showDialog = ref(false);
 const dialogApproved = ref(true);
 
-const onFormSubmit = ref(() => {
+const onFormSubmit = ref(async () => {
   isLoading.value = true;
+
+  const license = personalInfoFormData.value.license
+    ? await fileToBase64(personalInfoFormData.value.license[0])
+    : undefined;
 
   axios
     ?.post(URL_SUBMIT, {
       ...personalInfoFormData.value,
-      license: "test",
+      license,
       finances: {
         ...financialInfoFormData.value,
         stock: [

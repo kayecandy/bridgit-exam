@@ -29,6 +29,13 @@
                 :rules="rules('currentHomeLoanDebt')"
               ></v-text-field>
               <v-text-field
+                label="Current car loan debt"
+                type="number"
+                prefix="$"
+                v-model="financialInfoForm.currentCarLoanDebt"
+                :rules="rules('currentCarLoanDebt')"
+              ></v-text-field>
+              <v-text-field
                 label="Total savings"
                 type="number"
                 prefix="$"

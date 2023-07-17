@@ -9,7 +9,10 @@ export const INVALID_DATE_OF_BIRTH_ERROR = 'invalid-date-of-birth-error';
 export const INVALID_FIRST_NAME_LENGTH = 'invalid-first-name-length-error';
 export const INVALID_HOME_LOAN_DEBT_AMOUNT_ERROR =
   'invalid-home-loan-debt-error';
+export const INVALID_CAR_LOAN_DEBT_AMOUNT_ERROR = 'invalid-car-loan-debt-error';
 export const INVALID_LAST_NAME_LENGTH = 'invalid-last-name-length-error';
+export const INVALID_EMAIL_LENGTH = 'invalid-email-length-error';
+export const INVALID_EMAIL_FORMAT = 'invalid-email-format-error';
 export const INVALID_LICENSE_UPLOAD_SIZE = 'invalid-license-upload-size-error';
 export const INVALID_LOCATION_LENGTH = 'invalid-location-length-error';
 export const INVALID_SAVINGS_AMOUNT_ERROR = 'invalid-savings-amount-error';
@@ -21,7 +24,9 @@ export const MISSING_DATE_OF_BIRTH_ERROR = 'missing-date-of-birth-error';
 export const MISSING_FIRST_NAME_ERROR = 'missing-first-name-error';
 export const MISSING_HOME_LOAN_DEBT_AMOUNT_ERROR =
   'missing-home-loan-debt-error';
+export const MISSING_CAR_LOAN_DEBT_AMOUNT_ERROR = 'missing-car-loan-debt-error';
 export const MISSING_LAST_NAME_ERROR = 'missing-last-name-error';
+export const MISSING_EMAIL_ERROR = 'missing-email-error';
 export const MISSING_LOCATION_ERROR = 'missing-location-error';
 export const MISSING_SAVINGS_AMOUNT_ERROR = 'missing-savings-amount-error';
 export const MISSING_LICENSE_UPLOAD_ERROR = 'missing-license-upload-error';

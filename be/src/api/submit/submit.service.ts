@@ -47,6 +47,10 @@ export class SubmitService {
   private async computeTotalLiabilities(
     finances: FinancesDto,
   ): Promise<number> {
+    if (typeof finances.totalCreditCardDebt === 'string') {
+      throw new Error();
+    }
+
     return (
       (finances.currentHomeLoanDebt ?? 0) + (finances.totalCreditCardDebt ?? 0)
     );

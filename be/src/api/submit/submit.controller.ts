@@ -16,8 +16,11 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_APPLICANT_AGE_ERROR,
+  INVALID_CAR_LOAN_DEBT_AMOUNT_ERROR,
   INVALID_CREDIT_CARD_DEBT_AMOUNT_ERROR,
   INVALID_DATE_OF_BIRTH_ERROR,
+  INVALID_EMAIL_FORMAT,
+  INVALID_EMAIL_LENGTH,
   INVALID_FIRST_NAME_LENGTH,
   INVALID_HOME_LOAN_DEBT_AMOUNT_ERROR,
   INVALID_LAST_NAME_LENGTH,
@@ -26,8 +29,10 @@ import {
   INVALID_SAVINGS_AMOUNT_ERROR,
   INVALID_STOCK_NAME_LENGTH,
   INVALID_STOCK_QUANTITY,
+  MISSING_CAR_LOAN_DEBT_AMOUNT_ERROR,
   MISSING_CREDIT_CARD_DEBT_AMOUNT_ERROR,
   MISSING_DATE_OF_BIRTH_ERROR,
+  MISSING_EMAIL_ERROR,
   MISSING_FIRST_NAME_ERROR,
   MISSING_HOME_LOAN_DEBT_AMOUNT_ERROR,
   MISSING_LAST_NAME_ERROR,
@@ -85,15 +90,20 @@ export class SubmitController {
       [INVALID_FIRST_NAME_LENGTH]:
         'Applicant first name must be between 1 - 50 characters',
       [INVALID_HOME_LOAN_DEBT_AMOUNT_ERROR]:
-        'Credit card debt must be greater than or equal to 0',
+        'Home loan debt must be greater than or equal to 0',
+      [INVALID_CAR_LOAN_DEBT_AMOUNT_ERROR]:
+        'Car loan debt must be greater than or equal to 0',
       [INVALID_LAST_NAME_LENGTH]:
         'Applicant last name must be between 1 - 50 characters',
+      [INVALID_EMAIL_LENGTH]:
+        'Applicant email must be between 1 - 50 characters',
+      [INVALID_EMAIL_FORMAT]: 'Applicant email must be a valid email',
       [INVALID_LICENSE_UPLOAD_SIZE]:
         'Uploaded file must be 1000 to 5000000 bytes base64 string',
       [INVALID_LOCATION_LENGTH]:
         'Applicant location must be between 1 - 50 characters',
       [INVALID_SAVINGS_AMOUNT_ERROR]:
-        'Credit card debt must be greater than or equal to 0',
+        'Savings amount must be greater than or equal to 0',
       [INVALID_STOCK_NAME_LENGTH]:
         'Stock name must be between 1 - 50 characters',
       [INVALID_STOCK_QUANTITY]: 'Stock quantity must be between 1 and 1000',
@@ -103,7 +113,10 @@ export class SubmitController {
       [MISSING_FIRST_NAME_ERROR]: 'Posted payload is missing first name',
       [MISSING_HOME_LOAN_DEBT_AMOUNT_ERROR]:
         'Posted payload is missing home loan debt amount',
+      [MISSING_CAR_LOAN_DEBT_AMOUNT_ERROR]:
+        'Posted payload is missing car loan debt amount',
       [MISSING_LAST_NAME_ERROR]: 'Posted payload is missing last name',
+      [MISSING_EMAIL_ERROR]: 'Posted payload is missing email',
       [MISSING_LICENSE_UPLOAD_ERROR]:
         'Posted payload is missing license upload',
       [MISSING_LOCATION_ERROR]: 'Posted payload is missing location',
@@ -118,6 +131,8 @@ export class SubmitController {
     type: ApplicantDto,
   })
   async submit(@Body() applicantDto: ApplicantDto): Promise<SubmitResponseDto> {
+    console.log('BODY', applicantDto);
+
     const approved = await this.submitService.determineEligiblity(applicantDto);
     return {
       message: SUCCESS,

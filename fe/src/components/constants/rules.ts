@@ -45,6 +45,20 @@ export const ERRORS: Record<
       message: "Posted payload is missing last name",
     },
   ],
+  email: [
+    {
+      code: "invalid-email-length-error",
+      message: "Applicant email must be between 1 - 50 characters",
+    },
+    {
+      code: "missing-email-error",
+      message: "Posted payload is missing email",
+    },
+    {
+      code: "invalid-email-format-error",
+      message: "Applicant email must be a valid format",
+    },
+  ],
   location: [
     {
       code: "invalid-location-length-error",
@@ -89,6 +103,16 @@ export const ERRORS: Record<
     {
       code: "missing-home-loan-debt-error",
       message: "Posted payload is missing home loan debt amount",
+    },
+  ],
+  currentCarLoanDebt: [
+    {
+      code: "invalid-car-loan-debt-error",
+      message: "Car loan debt must be greater than or equal to 0",
+    },
+    {
+      code: "missing-car-loan-debt-error",
+      message: "Posted payload is missing car loan debt amount",
     },
   ],
   totalSavings: [

@@ -17,6 +17,11 @@
                 :rules="rules('lastName')"
               ></v-text-field>
               <v-text-field
+                label="Email"
+                v-model="personalInfoForm.email"
+                :rules="rules('email')"
+              ></v-text-field>
+              <v-text-field
                 label="Location Name"
                 v-model="personalInfoForm.location"
                 :rules="rules('location')"
@@ -27,6 +32,12 @@
                 v-model="personalInfoForm.dateOfBirth"
                 :rules="rules('dateOfBirth')"
               ></v-text-field>
+              <v-file-input
+                label="Photo ID"
+                :rules="rules('license')"
+                accept="image/*"
+                v-model="personalInfoForm.license"
+              ></v-file-input>
             </v-form>
           </v-card-text>
 
