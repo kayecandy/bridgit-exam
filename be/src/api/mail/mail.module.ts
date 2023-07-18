@@ -7,9 +7,13 @@ import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { readdir } from 'fs';
 
-readdir(process.cwd() + '/be', { withFileTypes: true }, (err, files) => {
-  console.log(files);
-});
+readdir(
+  process.cwd() + '/be/src/api/mail/templates',
+  { withFileTypes: true },
+  (err, files) => {
+    console.log(process.cwd(), files);
+  },
+);
 
 @Module({
   imports: [
@@ -35,7 +39,7 @@ readdir(process.cwd() + '/be', { withFileTypes: true }, (err, files) => {
           )}>`,
         },
         template: {
-          dir: join(process.cwd(), 'be/dist/api/mail/templates'),
+          dir: join(process.cwd(), '/be/src/api/mail/templates'),
           adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
           options: {
             strict: true,

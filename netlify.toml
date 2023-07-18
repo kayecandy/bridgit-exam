@@ -1,6 +1,6 @@
 [functions]
   directory = "be/functions"
-  external_node_modules = ["@nestjs/common", "@nestjs/swagger", "@nestjs/microservices", "@nestjs/websockets/socket-module", "emitter", "vm2", "@nestjs/core", "express", "pug-filters", "formidable"  "be/dist/app"]
+  external_node_modules = ["@nestjs/common", "@nestjs/swagger", "@nestjs/microservices", "@nestjs/websockets/socket-module", "emitter", "vm2", "@nestjs/core", "express", "pug-filters", "formidable",  "be/dist/app"]
   included_files = ["be/dist/*", "be/src/api/mail/templates/*"]
   node_bundler = "esbuild"
   
