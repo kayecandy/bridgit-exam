@@ -12,10 +12,17 @@
         parameters.</v-card-text
       >
 
-      <v-card-text v-if="stockLostValue">
+      <v-card-text>
         <v-alert
+          v-if="stockLostValue"
           type="warning"
-          :text="`Stock price for ${financialInfoFormData.stockName} has decreased it's price`"
+          :text="`Stock price for ${financialInfoFormData.stockName} has decreased it's price since the last working day's closing`"
+        >
+        </v-alert>
+        <v-alert
+          v-else
+          type="success"
+          :text="`Stock price for ${financialInfoFormData.stockName} has increased it's price since last working day's closing`"
         >
         </v-alert>
       </v-card-text>
