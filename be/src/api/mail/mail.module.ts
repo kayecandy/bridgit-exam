@@ -5,6 +5,11 @@ import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { join } from 'path';
+import { readdir } from 'fs';
+
+readdir(process.cwd(), { withFileTypes: true }, (err, files) => {
+  console.log(files);
+});
 
 @Module({
   imports: [
@@ -30,7 +35,7 @@ import { join } from 'path';
           )}>`,
         },
         template: {
-          dir: join(process.cwd(), 'be/src/api/mail/templates'),
+          dir: join(process.cwd(), 'be/dist/api/mail/templates'),
           adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
           options: {
             strict: true,
