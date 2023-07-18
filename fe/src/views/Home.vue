@@ -5,7 +5,9 @@
     <v-card>
       <v-card-title>Email sent!</v-card-title>
       <v-card-text
-        >An email has been sent to {{ personalInfoFormData.email }}</v-card-text
+        >An email has been sent to {{ personalInfoFormData.email }}. Please
+        check your spam folder in case it hasn't appeared in your
+        inbox</v-card-text
       >
       <br /><br />
       <v-card-actions>
