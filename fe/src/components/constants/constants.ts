@@ -1,4 +1,5 @@
 export const URL_SUBMIT = import.meta.env.VITE_BE_URL + "/submit";
+export const URL_MAIL = import.meta.env.VITE_BE_URL + "/mail";
 
 export const fileToBase64 = (file: File) => {
   return new Promise<string>((res, reject) => {

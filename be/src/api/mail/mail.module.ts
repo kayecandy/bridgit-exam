@@ -39,7 +39,7 @@ readdir(
           )}>`,
         },
         template: {
-          dir: join(process.cwd(), '/be/src/api/mail/templates'),
+          dir: join(process.cwd(), config.get('EMAIL_TEMPLATES_DIR')),
           adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
           options: {
             strict: true,

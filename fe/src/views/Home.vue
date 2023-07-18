@@ -1,5 +1,19 @@
 <template>
   <router-view></router-view>
+
+  <v-dialog v-model="showEmailDialog" width="auto">
+    <v-card>
+      <v-card-title>Email sent!</v-card-title>
+      <v-card-text
+        >An email has been sent to {{ personalInfoFormData.email }}</v-card-text
+      >
+      <br /><br />
+      <v-card-actions>
+        <v-btn @click="showEmailDialog = false">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   <v-dialog v-model="showDialog" width="auto">
     <v-card>
       <v-card-title v-if="dialogApproved">Congratulations!</v-card-title>
@@ -26,8 +40,19 @@
         >
         </v-alert>
       </v-card-text>
+
+      <br /><br />
       <v-card-actions>
         <v-btn @click="showDialog = false">Ok!</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          variant="flat"
+          density="default"
+          size="large"
+          @click="emailResults"
+          :loading="isEmailLoading"
+          >Email me the results!</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -40,7 +65,11 @@ import { provide } from "vue";
 import { AxiosStatic } from "axios";
 import { FinancialInfo, PersonalInfo } from "@/components/constants/types";
 import { CreateRule, ERRORS } from "@/components/constants/rules";
-import { URL_SUBMIT, fileToBase64 } from "@/components/constants/constants";
+import {
+  URL_SUBMIT,
+  URL_MAIL,
+  fileToBase64,
+} from "@/components/constants/constants";
 
 const axios = inject<AxiosStatic>("axios");
 
@@ -51,12 +80,16 @@ const financialInfoFormRef = ref();
 const personalInfoFormRef = ref();
 
 const isLoading = ref(false);
+const isEmailLoading = ref(false);
 
 const errors = ref<string[]>([]);
 
 const showDialog = ref(false);
+const showEmailDialog = ref(false);
 const dialogApproved = ref(true);
 const stockLostValue = ref(false);
+
+let applicant = {};
 
 const onFormSubmit = ref(async () => {
   isLoading.value = true;
@@ -65,20 +98,22 @@ const onFormSubmit = ref(async () => {
     ? await fileToBase64(personalInfoFormData.value.license[0])
     : undefined;
 
+  applicant = {
+    ...personalInfoFormData.value,
+    license,
+    finances: {
+      ...financialInfoFormData.value,
+      stock: [
+        {
+          name: financialInfoFormData.value.stockName,
+          quantity: financialInfoFormData.value.stockQuantity,
+        },
+      ],
+    },
+  };
+
   axios
-    ?.post(URL_SUBMIT, {
-      ...personalInfoFormData.value,
-      license,
-      finances: {
-        ...financialInfoFormData.value,
-        stock: [
-          {
-            name: financialInfoFormData.value.stockName,
-            quantity: financialInfoFormData.value.stockQuantity,
-          },
-        ],
-      },
-    })
+    ?.post(URL_SUBMIT, applicant)
     .then((res) => {
       console.log("response", res.data);
       errors.value = [];
@@ -102,6 +137,17 @@ const onFormSubmit = ref(async () => {
       isLoading.value = false;
     });
 });
+
+const emailResults = () => {
+  isEmailLoading.value = true;
+  axios
+    ?.post(URL_MAIL, { applicant, approved: dialogApproved.value })
+    .then(() => {})
+    .finally(() => {
+      isEmailLoading.value = false;
+      showEmailDialog.value = true;
+    });
+};
 
 const rules: CreateRule = (key) => {
   const keyErrors = ERRORS[key];
