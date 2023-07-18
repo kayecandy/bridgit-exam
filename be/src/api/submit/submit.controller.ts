@@ -142,7 +142,12 @@ export class SubmitController {
   async submit(@Body() applicantDto: ApplicantDto): Promise<SubmitResponseDto> {
     const approved = await this.submitService.determineEligiblity(applicantDto);
 
-    await this.mailService.send(applicantDto, approved);
+    /**
+     * Works on local and on a stronger server.
+     *
+     * Commenting this out since it times out on netlify
+     */
+    // await this.mailService.send(applicantDto, approved);
 
     return {
       message: SUCCESS,

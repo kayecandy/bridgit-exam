@@ -21,10 +21,6 @@
       </v-card-text>
       <v-card-actions>
         <v-btn @click="showDialog = false">Ok!</v-btn>
-
-        <v-btn variant="flat" color="green-accent-4" class="text-white"
-          >Email me a copy of this form!</v-btn
-        >
       </v-card-actions>
     </v-card>
   </v-dialog>
