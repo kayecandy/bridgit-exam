@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { MailController } from './mail.controller';
 import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
@@ -29,7 +30,7 @@ import { join } from 'path';
           )}>`,
         },
         template: {
-          dir: join(__dirname, 'templates'),
+          dir: join(process.cwd(), 'be/src/api/mail/templates'),
           adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
           options: {
             strict: true,
@@ -39,6 +40,7 @@ import { join } from 'path';
       inject: [ConfigService],
     }),
   ],
+  controllers: [MailController],
   providers: [MailService],
   exports: [MailService], // 👈 export for DI
 })

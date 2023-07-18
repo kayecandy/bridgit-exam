@@ -45,7 +45,6 @@ import {
   MISSING_STOCK_QUANTITY_ERROR,
   SUCCESS,
 } from 'src/common/response-messages';
-import { MailService } from 'src/mail/mail.service';
 import { SubmitService } from './submit.service';
 import { formatResponseTable } from 'src/common/swagger';
 
@@ -59,10 +58,7 @@ export class SubmitController {
    * Initializes the controller
    * @param submitService {SubmitService} Processes the request
    */
-  constructor(
-    private readonly submitService: SubmitService,
-    private readonly mailService: MailService,
-  ) {}
+  constructor(private readonly submitService: SubmitService) {}
 
   /**
    * Receives an applicant's financial information and evaluates their eligiblity for a loan
