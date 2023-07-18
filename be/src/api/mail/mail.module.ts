@@ -7,7 +7,7 @@ import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { readdir } from 'fs';
 
-readdir(process.cwd(), { withFileTypes: true }, (err, files) => {
+readdir(process.cwd() + '/be', { withFileTypes: true }, (err, files) => {
   console.log(files);
 });
 
