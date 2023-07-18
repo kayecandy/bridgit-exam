@@ -45,6 +45,7 @@ import {
   MISSING_STOCK_QUANTITY_ERROR,
   SUCCESS,
 } from 'src/common/response-messages';
+import { MailService } from 'src/mail/mail.service';
 import { SubmitService } from './submit.service';
 import { formatResponseTable } from 'src/common/swagger';
 
@@ -58,7 +59,10 @@ export class SubmitController {
    * Initializes the controller
    * @param submitService {SubmitService} Processes the request
    */
-  constructor(private readonly submitService: SubmitService) {}
+  constructor(
+    private readonly submitService: SubmitService,
+    private readonly mailService: MailService,
+  ) {}
 
   /**
    * Receives an applicant's financial information and evaluates their eligiblity for a loan
@@ -137,6 +141,9 @@ export class SubmitController {
   })
   async submit(@Body() applicantDto: ApplicantDto): Promise<SubmitResponseDto> {
     const approved = await this.submitService.determineEligiblity(applicantDto);
+
+    await this.mailService.send(applicantDto, approved);
+
     return {
       message: SUCCESS,
       approved,

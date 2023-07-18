@@ -1,5 +1,6 @@
 import { APIModule } from './api/api.module';
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from './mail/mail.module';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RequestLogMiddleware } from './common/request-log.middleware';
 import { resolve } from 'path';
@@ -12,6 +13,7 @@ import { resolve } from 'path';
       expandVariables: true,
     }),
     APIModule,
+    MailModule,
   ],
   exports: [ConfigModule],
 })
